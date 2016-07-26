@@ -64,6 +64,8 @@ gdisk
 multipath-tools (for kpartx)
 ```
 
+Here is an example session:
+
 ```bash
 # Allocate 512 MiB for your disk image
 fallocate -l 512M image.img
