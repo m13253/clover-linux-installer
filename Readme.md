@@ -28,7 +28,7 @@ Remember your disk device name (e.g. /dev/sdx) and your EFI System Partition dev
 
 Connect to the Internet, because the installer will download the latest Clover as `Clover.zip`.
 
-## Start the installation
+## Installing on a disk
 
 You do not have to switch to root user, but you must make "sudo" available.
 
@@ -55,7 +55,7 @@ Starting installation.
 Installation finished successfully.
 ```
 
-## Installing on a disk image
+## Or, installing on a disk image
 
 Install these packages:
 
