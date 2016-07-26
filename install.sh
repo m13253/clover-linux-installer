@@ -35,6 +35,7 @@ test_cmd rm coreutils
 test_cmd sudo sudo
 test_cmd umount util-linux
 
+echo 'Welcome to Clover-Linux-installer.'>&2
 echo 'Ensure your target disk has a GPT partition table.'>&2
 echo 'Create a FAT32 partition (about 200 MiB) and set it to "EFI System Partition" type.'>&2
 echo -n 'Type in your target disk device (e.g. /dev/sdx): '>&2
@@ -47,7 +48,7 @@ then
     exit 1
 fi
 echo>&2
-echo "You are about to install on disk \"$TARGET_DISK\", partition \"$TARGET_PARTITION\".">&2
+echo "You are about to install Clover on disk \"$TARGET_DISK\", partition \"$TARGET_PARTITION\".">&2
 echo 'Make sure you backed up your files before you continue, since the author of this installer program will not be responsible for any damage to your device or your files.'>&2
 ANSWER=n
 while [ "$ANSWER" != "y" ]
