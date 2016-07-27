@@ -25,6 +25,17 @@ test_cmd() {
     fi
 }
 
+extract_pkg() {
+    for i in "$@"
+    do
+        echo -ne '\e[1;34m==>\e[0m Extract package '>&2
+        echo "$i" >&2
+        mkdir "Clover/Clover.pkg/$i"
+        gzip -c -d "Clover/Clover.pkg/$i.pkg/Payload" > "Clover/Clover.pkg/$i.cpio"
+        7z x -o"Clover/Clover.pkg/$i" "Clover/Clover.pkg/$i.cpio"
+    done
+}
+
 test_cmd 7z p7zip
 test_cmd curl curl
 test_cmd dd coreutils
@@ -71,15 +82,10 @@ log mkdir Clover
 log 7z x -oClover Clover.zip
 log mkdir Clover/Clover.pkg
 log 7z x -oClover/Clover.pkg Clover/Clover_*.pkg
-log mkdir Clover/Clover.pkg/BiosBoot
-log gzip -c -d Clover/Clover.pkg/BiosBoot.pkg/Payload > Clover/Clover.pkg/BiosBoot.cpio
-log 7z x -oClover/Clover.pkg/BiosBoot Clover/Clover.pkg/BiosBoot.cpio
-log mkdir Clover/Clover.pkg/EFIFolder
-log gzip -c -d Clover/Clover.pkg/EFIFolder.pkg/Payload > Clover/Clover.pkg/EFIFolder.cpio
-log 7z x -oClover/Clover.pkg/EFIFolder Clover/Clover.pkg/EFIFolder.cpio
-log mkdir Clover/Clover.pkg/black_green
-log gzip -c -d Clover/Clover.pkg/black_green.pkg/Payload > Clover/Clover.pkg/black_green.cpio
-log 7z x -oClover/Clover.pkg/black_green Clover/Clover.pkg/black_green.cpio
+for pkg in Clover/Clover.pkg/*.pkg
+do
+    extract_pkg "$(basename "$pkg" .pkg)"
+done
 
 log mkdir Clover/work
 log cp Clover/Clover.pkg/BiosBoot/usr/standalone/i386/boot0af Clover/work/boot0
@@ -102,6 +108,8 @@ log sudo mount -t vfat "$TARGET_PARTITION" Clover/work/mnt
 log sudo rm -rf Clover/work/mnt/EFI/CLOVER
 log sudo cp Clover/work/boot Clover/work/mnt/
 log sudo cp -r Clover/Clover.pkg/EFIFolder/EFI Clover/work/mnt/
+log sudo mkdir -p Clover/work/mnt/EFI/CLOVER/drivers64 Clover/work/mnt/EFI/CLOVER/drivers64UEFI
+log sudo cp Clover/Clover.pkg/EmuVariableUefi-64/EmuVariableUefi-64.efi Clover/work/mnt/EFI/CLOVER/drivers64/
 log sudo cp -r Clover/Clover.pkg/black_green/black_green Clover/work/mnt/EFI/CLOVER/themes/
 log sudo rm -rf Clover/work/mnt/EFI/CLOVER/themes/embedded
 log sudo rm -rf Clover/work/mnt/EFI/CLOVER/themes/random
