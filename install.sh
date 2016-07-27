@@ -109,7 +109,6 @@ log sudo rm -rf Clover/work/mnt/EFI/CLOVER
 log sudo cp Clover/work/boot Clover/work/mnt/
 log sudo cp -r Clover/Clover.pkg/EFIFolder/EFI Clover/work/mnt/
 log sudo mkdir -p Clover/work/mnt/EFI/CLOVER/drivers64 Clover/work/mnt/EFI/CLOVER/drivers64UEFI
-log sudo cp Clover/Clover.pkg/EmuVariableUefi-64/EmuVariableUefi-64.efi Clover/work/mnt/EFI/CLOVER/drivers64/
 log sudo cp -r Clover/Clover.pkg/black_green/black_green Clover/work/mnt/EFI/CLOVER/themes/
 log sudo rm -rf Clover/work/mnt/EFI/CLOVER/themes/embedded
 log sudo rm -rf Clover/work/mnt/EFI/CLOVER/themes/random
