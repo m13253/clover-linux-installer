@@ -100,8 +100,9 @@ log sudo dd if="$TARGET_PARTITION" bs=512 count=1 >Clover/work/origPBR
 log cp Clover/work/boot1 Clover/work/newPBR
 log dd if=Clover/work/origPBR of=Clover/work/newPBR skip=3 seek=3 bs=1 count=87 conv=notrunc
 
-log sudo dd if=Clover/work/newMBR of="$TARGET_DISK" bs=512 count=1 conv=notrunc
-log sudo dd if=Clover/work/newPBR of="$TARGET_PARTITION" bs=512 count=1 conv=notrunc
+log sudo dd if=Clover/work/newPBR of="$TARGET_PARTITION" bs=512 count=1 conv=nocreat,notrunc
+log sudo dd if=Clover/work/newMBR of="$TARGET_DISK" bs=512 count=1 conv=nocreat,notrunc
+sleep 2
 
 log mkdir Clover/work/mnt
 log sudo mount -t vfat "$TARGET_PARTITION" Clover/work/mnt
