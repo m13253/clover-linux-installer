@@ -102,6 +102,12 @@ sudo kpartx -dv /dev/loop9
 sudo losetup -d /dev/loop9
 ```
 
+
+## For some buggy BIOS
+
+For some buggy BIOS where `BiosBlockIO` is needed, search `install.sh` for `boot6` and replace with `boot7`.
+
+
 ## License
 
 The original author of this program, clover-linux-installer, is StarBrilliant.
