@@ -90,7 +90,7 @@ done
 log mkdir Clover/work
 log cp Clover/Clover.pkg/BiosBoot/usr/standalone/i386/boot0af Clover/work/boot0
 log cp Clover/Clover.pkg/BiosBoot/usr/standalone/i386/boot1f32 Clover/work/boot1
-log cp Clover/Clover.pkg/BiosBoot/usr/standalone/i386/x64/boot6 Clover/work/boot
+log cp Clover/Clover.pkg/BiosBoot/usr/standalone/i386/x64/boot7 Clover/work/boot
 
 log sudo dd if="$TARGET_DISK" bs=512 count=1 >Clover/work/origMBR 
 log cp Clover/work/origMBR Clover/work/newMBR
@@ -110,7 +110,7 @@ log sudo rm -rf Clover/work/mnt/EFI/CLOVER
 log sudo cp Clover/work/boot Clover/work/mnt/
 log sudo cp -r Clover/Clover.pkg/EFIFolder/EFI Clover/work/mnt/
 log sudo mkdir -p Clover/work/mnt/EFI/CLOVER/drivers64 Clover/work/mnt/EFI/CLOVER/drivers64UEFI
-log sudo cp -r Clover/Clover.pkg/black_green/black_green Clover/work/mnt/EFI/CLOVER/themes/
+#log sudo cp -r Clover/Clover.pkg/black_green/black_green Clover/work/mnt/EFI/CLOVER/themes/
 log sudo rm -rf Clover/work/mnt/EFI/CLOVER/themes/embedded
 log sudo rm -rf Clover/work/mnt/EFI/CLOVER/themes/random
 log sudo umount Clover/work/mnt
