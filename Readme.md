@@ -17,6 +17,7 @@ Install these packages:
 curl
 gzip
 p7zip
+p7zip-full or p7zip-plugins (depending on distribution)
 sudo
 ```
 
