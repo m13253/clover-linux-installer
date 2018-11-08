@@ -23,7 +23,7 @@ sudo
 
 Use [GParted](http://gparted.org/) or [cgdisk](http://www.rodsbooks.com/gdisk/) to partition your hard disk.
 
-Create a partition (about 200 MiB) and set its type to "EFI System Partiton (0xef00)". Format it as FAT32.
+Create a partition (about 200 MiB), set its type to "EFI System Partiton (0xef00)" and set on it a `boot` flag. Format it as FAT32.
 
 Remember your disk device name (e.g. /dev/sdx) and your EFI System Partition device name (e.g. /dev/sdx9).
 
