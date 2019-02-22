@@ -9,6 +9,8 @@
 
 set -e
 
+BOOTFILE=boot6
+
 log() {
     echo -ne '\e[1;34m==>\e[0m '>&2
     echo "$*" >&2
@@ -90,7 +92,7 @@ done
 log mkdir Clover/work
 log cp Clover/Clover.pkg/BiosBoot/usr/standalone/i386/boot0af Clover/work/boot0
 log cp Clover/Clover.pkg/BiosBoot/usr/standalone/i386/boot1f32 Clover/work/boot1
-log cp Clover/Clover.pkg/BiosBoot/usr/standalone/i386/x64/boot7 Clover/work/boot
+log cp Clover/Clover.pkg/BiosBoot/usr/standalone/i386/x64/"$BOOTFILE" Clover/work/boot
 
 log sudo dd if="$TARGET_DISK" bs=512 count=1 >Clover/work/origMBR 
 log cp Clover/work/origMBR Clover/work/newMBR
