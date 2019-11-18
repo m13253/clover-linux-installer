@@ -84,13 +84,13 @@ log dd if=Clover/work/boot0 of=Clover/work/newMBR bs=440 count=1 conv=notrunc
 
 log sudo dd if="$TARGET_PARTITION" bs=512 count=1 >Clover/work/origPBR1
 log cp Clover/work/boot1 Clover/work/newPBR1
-log dd if=Clover/work/origPBR of=Clover/work/newPBR1 skip=3 seek=3 bs=1 count=87 conv=notrunc
+log dd if=Clover/work/origPBR1 of=Clover/work/newPBR1 skip=3 seek=3 bs=1 count=87 conv=notrunc
 
 # Assume the backup boot sector is located at 0xC00.
 # Hope you have backed up your important files in caes I guessed it wrong.
 log sudo dd if="$TARGET_PARTITION" skip=6 bs=512 count=1 >Clover/work/origPBR2
 log cp Clover/work/boot1 Clover/work/newPBR2
-log dd if=Clover/work/origPBR of=Clover/work/newPBR2 skip=3 seek=3 bs=1 count=87 conv=notrunc
+log dd if=Clover/work/origPBR2 of=Clover/work/newPBR2 skip=3 seek=3 bs=1 count=87 conv=notrunc
 
 log sudo dd if=Clover/work/newPBR1 of="$TARGET_PARTITION" bs=512 count=1 conv=nocreat,notrunc
 log sudo dd if=Clover/work/newPBR2 of="$TARGET_PARTITION" seek=6 bs=512 count=1 conv=nocreat,notrunc
