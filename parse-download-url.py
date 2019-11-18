@@ -12,7 +12,7 @@ import sys
 import re
 
 if __name__ == '__main__':
-    regex = re.compile(r'Clover_.*\.pkg', re.IGNORECASE)
+    regex = re.compile(r'CloverV2-.*\.zip', re.IGNORECASE)
     obj = json.load(sys.stdin.buffer)
     urls = [i['browser_download_url'] for i in obj['assets'] if regex.fullmatch(i['name'])]
     print(urls[0])
