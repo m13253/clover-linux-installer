@@ -44,6 +44,7 @@ test_cmd dd coreutils
 test_cmd gzip gzip
 test_cmd mkdir coreutils
 test_cmd mount util-linux
+test_cmd python3 python3
 test_cmd rm coreutils
 test_cmd sudo sudo
 test_cmd umount util-linux
@@ -74,7 +75,7 @@ echo 'Starting installation.'>&2
 
 if [ ! -e Clover.zip ]
 then
-    log curl -o Clover.zip.part -C - -L https://sourceforge.net/projects/cloverefiboot/files/latest/download
+    log curl -o Clover.zip.part -C - -L "$(curl -s -S https://api.github.com/repos/CloverHackyColor/CloverBootloader/releases/latest | python3 ./parse-download-url.py)"
     log mv Clover.zip.part Clover.zip
 fi
 
