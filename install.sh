@@ -27,17 +27,6 @@ test_cmd() {
     fi
 }
 
-extract_pkg() {
-    for i in "$@"
-    do
-        echo -ne '\e[1;34m==>\e[0m Extract package '>&2
-        echo "$i" >&2
-        mkdir "Clover/Clover.pkg/$i"
-        gzip -c -d "Clover/Clover.pkg/$i.pkg/Payload" > "Clover/Clover.pkg/$i.cpio"
-        7z x -o"Clover/Clover.pkg/$i" "Clover/Clover.pkg/$i.cpio"
-    done
-}
-
 test_cmd 7z p7zip
 test_cmd curl curl
 test_cmd dd coreutils
@@ -75,35 +64,36 @@ echo 'Starting installation.'>&2
 
 if [ ! -e Clover.zip ]
 then
-    log curl -o Clover.zip.part -C - -L "$(curl -s -S https://api.github.com/repos/CloverHackyColor/CloverBootloader/releases/latest | python3 ./parse-download-url.py)"
-    log mv Clover.zip.part Clover.zip
+    log curl -o CloverV2.zip.part -C - -L "$(curl -s -S https://api.github.com/repos/CloverHackyColor/CloverBootloader/releases/latest | python3 ./parse-download-url.py)"
+    log mv CloverV2.zip.part CloverV2.zip
 fi
 
 log sudo umount Clover/work/mnt || true
 log rm -rf Clover/
 log mkdir Clover
-log 7z x -oClover Clover.zip
-log mkdir Clover/Clover.pkg
-log 7z x -oClover/Clover.pkg Clover/Clover_*.pkg
-for pkg in Clover/Clover.pkg/*.pkg
-do
-    extract_pkg "$(basename "$pkg" .pkg)"
-done
+log 7z x -oClover CloverV2.zip
 
 log mkdir Clover/work
-log cp Clover/Clover.pkg/BiosBoot/usr/standalone/i386/boot0af Clover/work/boot0
-log cp Clover/Clover.pkg/BiosBoot/usr/standalone/i386/boot1f32 Clover/work/boot1
-log cp Clover/Clover.pkg/BiosBoot/usr/standalone/i386/x64/"$BOOTFILE" Clover/work/boot
+log cp Clover/CloverV2/BootSectors/boot0af Clover/work/boot0
+log cp Clover/CloverV2/BootSectors/boot1f32 Clover/work/boot1
+log cp Clover/CloverV2/Bootloaders/x64/"$BOOTFILE" Clover/work/boot
 
 log sudo dd if="$TARGET_DISK" bs=512 count=1 >Clover/work/origMBR 
 log cp Clover/work/origMBR Clover/work/newMBR
 log dd if=Clover/work/boot0 of=Clover/work/newMBR bs=440 count=1 conv=notrunc
 
-log sudo dd if="$TARGET_PARTITION" bs=512 count=1 >Clover/work/origPBR 
-log cp Clover/work/boot1 Clover/work/newPBR
-log dd if=Clover/work/origPBR of=Clover/work/newPBR skip=3 seek=3 bs=1 count=87 conv=notrunc
+log sudo dd if="$TARGET_PARTITION" bs=512 count=1 >Clover/work/origPBR1
+log cp Clover/work/boot1 Clover/work/newPBR1
+log dd if=Clover/work/origPBR of=Clover/work/newPBR1 skip=3 seek=3 bs=1 count=87 conv=notrunc
 
-log sudo dd if=Clover/work/newPBR of="$TARGET_PARTITION" bs=512 count=1 conv=nocreat,notrunc
+# Assume the backup boot sector is located at 0xC00.
+# Hope you have backed up your important files in caes I guessed it wrong.
+log sudo dd if="$TARGET_PARTITION" skip=6 bs=512 count=1 >Clover/work/origPBR2
+log cp Clover/work/boot1 Clover/work/newPBR2
+log dd if=Clover/work/origPBR of=Clover/work/newPBR2 skip=3 seek=3 bs=1 count=87 conv=notrunc
+
+log sudo dd if=Clover/work/newPBR1 of="$TARGET_PARTITION" bs=512 count=1 conv=nocreat,notrunc
+log sudo dd if=Clover/work/newPBR2 of="$TARGET_PARTITION" seek=6 bs=512 count=1 conv=nocreat,notrunc
 log sudo dd if=Clover/work/newMBR of="$TARGET_DISK" bs=512 count=1 conv=nocreat,notrunc
 sleep 2
 
@@ -111,11 +101,7 @@ log mkdir Clover/work/mnt
 log sudo mount -t vfat "$TARGET_PARTITION" Clover/work/mnt
 log sudo rm -rf Clover/work/mnt/EFI/CLOVER
 log sudo cp Clover/work/boot Clover/work/mnt/
-log sudo cp -r Clover/Clover.pkg/EFIFolder/EFI Clover/work/mnt/
-log sudo mkdir -p Clover/work/mnt/EFI/CLOVER/drivers64 Clover/work/mnt/EFI/CLOVER/drivers64UEFI
-#log sudo cp -r Clover/Clover.pkg/black_green/black_green Clover/work/mnt/EFI/CLOVER/themes/
-log sudo rm -rf Clover/work/mnt/EFI/CLOVER/themes/embedded
-log sudo rm -rf Clover/work/mnt/EFI/CLOVER/themes/random
+log sudo cp -r Clover/Clover.pkg/EFI Clover/work/mnt/
 log sudo umount Clover/work/mnt
 
 echo>&2
