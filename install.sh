@@ -101,7 +101,7 @@ log mkdir Clover/work/mnt
 log sudo mount -t vfat "$TARGET_PARTITION" Clover/work/mnt
 log sudo rm -rf Clover/work/mnt/EFI/CLOVER
 log sudo cp Clover/work/boot Clover/work/mnt/
-log sudo cp -r Clover/Clover.pkg/EFI Clover/work/mnt/
+log sudo cp -r Clover/CloverV2/EFI Clover/work/mnt/
 log sudo umount Clover/work/mnt
 
 echo>&2
