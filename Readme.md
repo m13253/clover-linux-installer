@@ -27,7 +27,7 @@ Create a partition (about 200 MiB), set its type to "EFI System Partiton (0xef00
 
 Remember your disk device name (e.g. /dev/sdx) and your EFI System Partition device name (e.g. /dev/sdx9).
 
-Connect to the Internet, because the installer will download the latest Clover as `Clover.zip`.
+Connect to the Internet, because the installer will download the latest Clover as `CloverV2.zip`.
 
 ## Installing on a disk
 

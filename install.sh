@@ -62,7 +62,7 @@ done
 echo>&2
 echo 'Starting installation.'>&2
 
-if [ ! -e Clover.zip ]
+if [ ! -e CloverV2.zip ]
 then
     log curl -o CloverV2.zip.part -C - -L "$(curl -s -S https://api.github.com/repos/CloverHackyColor/CloverBootloader/releases/latest | python3 ./parse-download-url.py)"
     log mv CloverV2.zip.part CloverV2.zip
